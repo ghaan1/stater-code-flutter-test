@@ -27,7 +27,7 @@ class MainHomePage extends StatelessWidget {
           ),
           inputDecorationTheme: const InputDecorationTheme(
             filled: true,
-            fillColor: kPrimaryLightColor,
+            fillColor: kPrimaryColor,
             iconColor: kPrimaryColor,
             prefixIconColor: kPrimaryColor,
             contentPadding: EdgeInsets.symmetric(
