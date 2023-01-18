@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/Pages/Login%20Page/login_page.dart';
-import 'package:http/http.dart';
 import 'package:startercodepacitan/services/services.dart';
 import '../../../constants.dart';
 import '../../Login Page/Components/already_have_an_account_acheck.dart';
