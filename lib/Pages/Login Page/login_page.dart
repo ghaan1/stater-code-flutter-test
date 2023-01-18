@@ -14,29 +14,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginPage> {
-  // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // sign user in method
   void signUserIn() {}
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const LoginScreenTopImage(),
-          Row(children: const [
-            Spacer(),
-            Expanded(
-              flex: 8,
-              child: LoginForm(),
-            ),
-            Spacer(),
-          ]),
-        ]),
-      ),
-    );
+    return Column(
+        children: const [WelcomeBack(), Expanded(child: LoginForm())]);
   }
 }

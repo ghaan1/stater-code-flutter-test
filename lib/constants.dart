@@ -10,3 +10,11 @@ const kLightColor = Color(0xFFe3eaef);
 const kDarkColor = Color(0xFF191d21);
 
 const double defaultPadding = 16.0;
+
+const circleGradientColor = LinearGradient(
+  begin: Alignment.center,
+  end: Alignment.bottomCenter,
+  colors: [Color(0xfffab8c3), Color.fromRGBO(89, 86, 233, 1)],
+);
+
+const Color circleColor = Color(0xff706dfc);

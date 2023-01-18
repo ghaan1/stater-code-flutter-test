@@ -106,73 +106,140 @@ class _PageLoginState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
-            controller: txtEmail,
-            onSaved: (String? val) {
-              txtEmail.text = val!;
-            },
-            decoration: const InputDecoration(
-              hintText: "Your email",
-              prefixIcon: Padding(
-                padding: EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.person),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              controller: txtPassword,
-              onSaved: (String? val) {
-                txtPassword.text = val!;
-              },
-              cursorColor: kPrimaryColor,
-              decoration: const InputDecoration(
-                hintText: "Your password",
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          color: kLightColor,
+          padding: const EdgeInsets.all(30),
+          //margin: EdgeInsets.all(8),
+          child: Column(
+            children: [
+              const Expanded(
+                flex: 3,
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: kPrimaryColor,
+                      fontFamily: 'nunito'),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: defaultPadding),
-          Hero(
-            tag: "login_btn",
-            child: ElevatedButton(
-              // onPressed: () => _validateInput(),
-              onPressed: () {
-                doLogin();
-              },
-              child: Text(
-                "Login".toUpperCase(),
-              ),
-            ),
-          ),
-          const SizedBox(height: defaultPadding),
-          AlreadyHaveAnAccountCheck(
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const RegisterPage();
-                  },
+              Expanded(
+                flex: 5,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: txtEmail,
+                      decoration: InputDecoration(
+                        errorText: validateEmail(txtEmail.text),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 17),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Email',
+                        labelStyle: const TextStyle(
+                            color: Color(0xFF6777EE),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nunito'),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      controller: txtPassword,
+                      decoration: InputDecoration(
+                        errorText: validatePassword(txtPassword.text),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 17),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(
+                            color: Color(0xFF6777EE),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nunito'),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      child: TextButton(
+                        child: const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Lupa Password ?',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: 'nunito',
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColor),
+                          ),
+                        ),
+                        onPressed: () {},
+                      ),
+                    )
+                  ],
                 ),
-              );
-            },
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF6777EE),
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                          ),
+                          onPressed: () {
+                            doLogin();
+                          },
+                          child: const Text("Login",
+                              style: TextStyle(
+                                  fontFamily: 'Nunito',
+                                  fontWeight: FontWeight.bold))),
+                    ),
+                    SizedBox(
+                      child: TextButton(
+                        child: const Text(
+                          'Belum punya akun?',
+                          style: TextStyle(
+                              fontFamily: 'nunito',
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor),
+                        ),
+                        onPressed: () {},
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

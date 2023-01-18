@@ -1,33 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:startercodepacitan/constants.dart';
 
-import '../../../constants.dart';
+import 'custom_circle.dart';
 
-class LoginScreenTopImage extends StatelessWidget {
-  const LoginScreenTopImage({
-    Key? key,
-  }) : super(key: key);
+class WelcomeBack extends StatelessWidget {
+  const WelcomeBack({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "LOGIN",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: defaultPadding * 2),
-        Row(
-          children: [
-            const Spacer(),
-            Expanded(
-              flex: 8,
-              child: Image.asset("lib/images/logoSteisla.png"),
+    return Container(
+      color: kPrimaryColor,
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: Stack(
+        children: [
+          Positioned(
+              top: MediaQuery.of(context).size.height * 0.03,
+              left: MediaQuery.of(context).size.width * 0.25,
+              child: const CustomCircle(
+                width: 25,
+                height: 25,
+                color: kPrimaryColor,
+              )),
+          Positioned(
+              top: MediaQuery.of(context).size.height * -0.065,
+              right: MediaQuery.of(context).size.width * 0.03,
+              child: const CustomCircle(
+                width: 125,
+                height: 125,
+                gradient: circleGradientColor,
+                color: circleColor,
+                borderWidth: 2,
+              )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          const Align(
+            alignment: Alignment.center,
+            child: Text(
+              "Welcome\nBack",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 60,
+                  color: Colors.white,
+                  decoration: TextDecoration.none,
+                  fontFamily: 'nunito'),
             ),
-            const Spacer(),
-          ],
-        ),
-        SizedBox(height: defaultPadding * 2),
-      ],
+          ),
+          Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.06,
+              right: MediaQuery.of(context).size.width * 0.18,
+              child: const CustomCircle(
+                width: 35,
+                height: 35,
+                color: kPrimaryColor,
+                borderWidth: 4,
+              )),
+        ],
+      ),
     );
   }
 }

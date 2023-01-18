@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/Pages/Login%20Page/Components/login_form.dart';
+import 'package:startercodepacitan/Pages/Login%20Page/login_page.dart';
 import 'package:startercodepacitan/constants.dart';
-import '../widget/custom_button.dart';
-import '../widget/custom_page_transition.dart';
+import 'components/custom_button.dart';
+import 'components/custom_page_transition.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -62,7 +63,7 @@ class _WelcomePageState extends State<WelcomePage>
               onPressed: () => Navigator.push(
                   context,
                   CustomScaleTransition(
-                      nextPageUrl: "/login", nextPage: const LoginForm())),
+                      nextPageUrl: "/login", nextPage: const LoginPage())),
               title: "Get Started",
             ),
           ],
