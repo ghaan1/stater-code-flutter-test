@@ -35,15 +35,15 @@ class _WidgetBannerProfilState extends State<WidgetBannerProfil> {
             bottomLeft: Radius.circular(40),
             bottomRight: Radius.circular(40),
           ),
-          child: Image.asset("assets/images/bg-ungu.jpeg"),
+          child: Image.asset("lib/images/bg-ungu.jpeg"),
         ),
         SizedBox(
           height: 200,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
+            children: const [
+              Text(
                 "Profil",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -53,10 +53,10 @@ class _WidgetBannerProfilState extends State<WidgetBannerProfil> {
                   fontSize: 35,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
               Text(
                 'Akun',
-                style: const TextStyle(
+                style: TextStyle(
                   letterSpacing: 2,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

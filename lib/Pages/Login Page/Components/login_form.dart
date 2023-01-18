@@ -1,11 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/Home/home_page.dart';
 import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
+import 'package:startercodepacitan/services/services.dart';
 import '../../../constants.dart';
-import 'package:http/http.dart' as http;
-
+import '../../Home Page/landinghome_page.dart';
 import 'already_have_an_account_acheck.dart';
 
 class LoginForm extends StatefulWidget {
@@ -38,128 +38,70 @@ class HeadClipper extends CustomClipper<Path> {
 }
 
 class _PageLoginState extends State<LoginForm> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  var txtEditEmail = TextEditingController(text: 'superadmin@gmail.com');
-  var txtEditPwd = TextEditingController(text: 'password');
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var txtEmail = TextEditingController(text: 'superadmin@gmail.com');
+  var txtPassword = TextEditingController(text: 'password');
 
-  void _validateInput() {
-    if (_formKey.currentState!.validate()) {
-      //If all data are correct then save data to out variables
-      _formKey.currentState!.save();
+  String? _emailResponseError;
+  String? _passwordResponseError;
+  int? _statusCode;
 
-      // doLogin(txtEditEmail.text, txtEditPwd.text);
+  String? validateEmail(String value) {
+    if (!value.isNotEmpty) {
+      return "Email Masih Kosong";
+    } else if (!value.contains('@')) {
+      return "Kurang @";
+    } else if (_statusCode != 200) {
+      return _emailResponseError;
     }
+    return null;
   }
 
-  // cara menggunakan api do
-  // doLogin(email, password) async {
-  //   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  //   Dialogs.loading(context, _keyLoader, "Proses ...");
-
-  //   try {
-  //     final response = await http.post(
-  //         // Uri.parse("https://api.sobatcoding.com/testing/login"),
-  //         // Uri.parse("https://5699-114-6-31-174.ap.ngrok.io/api/auth/login"),
-  //         // Uri.parse("https://V2starter.putraprima.id/api/auth/login"),
-  //         Uri.parse("https://5afd-36-85-58-61.ap.ngrok.io/api/auth/login"),
-  //         headers: {
-  //           'Content-Type': 'application/json; charset=UTF-8',
-  //           'Charset': 'utf-8'
-  //         },
-  //         body: jsonEncode({
-  //           "email": email,
-  //           "password": password,
-  //           "device_name": "handphone",
-  //         }));
-
-  //     final output = jsonDecode(response.body);
-  //     final token = Token.fromJson(output);
-  //     final pref = await SharedPreferences.getInstance();
-
-  //     if (token.token != null) {
-  //       await pref.setString('token', token.token!);
-
-  //       // setState(() {});
-
-  //       if (!mounted) {
-  //         return;
-  //       }
-
-  //       if (response.statusCode == 200) {
-  //         Navigator.of(context).pop();
-  //         // ScaffoldMessenger.of(context).showSnackBar(
-  //         //   SnackBar(
-  //         //       content: Text(
-  //         //     output['message'],
-  //         //     style: const TextStyle(fontSize: 16),
-  //         //   )),
-  //         // );
-
-  //         saveSession(email).then(() {
-  //           Navigator.pushAndRemoveUntil(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (BuildContext context) => const Mains(),
-  //             ),
-  //             (route) => false,
-  //           );
-  //         });
-
-  //         if (output['success'] == true) {}
-  //         //debugPrint(output['message']);
-  //       } else {
-  //         Navigator.of(context).pop();
-  //         //debugPrint(output['message']);
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //               content: Text(
-  //             output.toString(),
-  //             style: const TextStyle(fontSize: 16),
-  //           )),
-  //         );
-  //       }
-  //     }
-  //   } catch (e) {
-  //     Navigator.of(_keyLoader.currentContext!, rootNavigator: false).pop();
-  //     Dialogs.popUp(context, '$e');
-  //     debugPrint('$e');
-  //   }
-  // }
-  // end
-
-  saveSession(String email) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    // tokken e
-    await pref.setString("email", email);
-    await pref.setBool("is_login", true);
-    final token = pref.getString('token');
-    print("Token From Shared Pref $token");
+  String? validatePassword(String value) {
+    if (!value.isNotEmpty) {
+      return "Password Masih Kosong";
+    } else if (_statusCode != 200) {
+      return _passwordResponseError;
+    }
+    return null;
   }
 
-  void ceckLogin() async {
+  Future doLogin() async {
+    final email = txtEmail.text;
+    final password = txtPassword.text;
+    const deviceId = "12345";
+    final response = await ServicesAuth.login(email, password, deviceId);
+    print(response.body);
+    _statusCode = response.statusCode;
+
     SharedPreferences pref = await SharedPreferences.getInstance();
-    var islogin = pref.getBool("is_login");
-    if (islogin != null && islogin) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(
+    const key = 'token';
+    final token = pref.get(key);
+    if (response.statusCode == 200) {
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => const HomePage(),
+          builder: (context) {
+            return const LandingHome();
+          },
         ),
-        (route) => false,
       );
+    } else if (response.statusCode == 422) {
+      var object = json.decode(response.body);
+      var errors = object['errors'];
+      setState(() {
+        if (errors.length > 1) {
+          _emailResponseError = errors['email'][0];
+          _passwordResponseError = errors['password'][0];
+        } else {
+          if (errors.containsKey('email')) {
+            _emailResponseError = errors['email'][0];
+          } else {
+            _passwordResponseError = errors['password'][0];
+          }
+        }
+      });
     }
-  }
-
-  @override
-  void initState() {
-    ceckLogin();
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    super.dispose();
   }
 
   @override
@@ -172,9 +114,9 @@ class _PageLoginState extends State<LoginForm> {
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
-            controller: txtEditEmail,
+            controller: txtEmail,
             onSaved: (String? val) {
-              txtEditEmail.text = val!;
+              txtEmail.text = val!;
             },
             decoration: const InputDecoration(
               hintText: "Your email",
@@ -189,9 +131,9 @@ class _PageLoginState extends State<LoginForm> {
             child: TextFormField(
               textInputAction: TextInputAction.done,
               obscureText: true,
-              controller: txtEditPwd,
+              controller: txtPassword,
               onSaved: (String? val) {
-                txtEditPwd.text = val!;
+                txtPassword.text = val!;
               },
               cursorColor: kPrimaryColor,
               decoration: const InputDecoration(
@@ -208,12 +150,9 @@ class _PageLoginState extends State<LoginForm> {
             tag: "login_btn",
             child: ElevatedButton(
               // onPressed: () => _validateInput(),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const HomePage(),
-                ),
-              ),
+              onPressed: () {
+                doLogin();
+              },
               child: Text(
                 "Login".toUpperCase(),
               ),
@@ -226,7 +165,7 @@ class _PageLoginState extends State<LoginForm> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return RegisterPage();
+                    return const RegisterPage();
                   },
                 ),
               );
