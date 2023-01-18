@@ -77,7 +77,7 @@ class _MainListState extends State<MainList> {
                   controller: scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(10),
-                  itemCount: categories.length,
+                  // itemCount: categories.length,
                   itemBuilder: (context, index) {
                     return Container(
                         width: double.infinity,
@@ -100,42 +100,42 @@ class _MainListState extends State<MainList> {
                                           BorderRadius.circular(15)))),
                           child: Row(
                             children: [
-                              Expanded(
-                                flex: 7,
-                                child: Text(
-                                  categories[index].name,
-                                  style: const TextStyle(
-                                    color: Color(0xFF6777EE),
-                                    fontFamily: 'Nunito',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                              Expanded(
-                                  child: IconButton(
-                                      color: Colors.black,
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return EditKategori(
-                                                  category: categories[index]);
-                                            });
-                                      },
-                                      icon: Icon(Icons.create_rounded))),
-                              Expanded(
-                                  child: IconButton(
-                                      color: Colors.red,
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return DeleteCategori(
-                                                  category: categories[index]);
-                                            });
-                                      },
-                                      icon: Icon(Icons.delete)))
+                              // Expanded(
+                              //   flex: 7,
+                              //   child: Text(
+                              //     categories[index].name,
+                              //     style: const TextStyle(
+                              //       color: Color(0xFF6777EE),
+                              //       fontFamily: 'Nunito',
+                              //       fontWeight: FontWeight.bold,
+                              //     ),
+                              //     textAlign: TextAlign.start,
+                              //   ),
+                              // ),
+                              // Expanded(
+                              //     child: IconButton(
+                              //         color: Colors.black,
+                              //         onPressed: () {
+                              //           showDialog(
+                              //               context: context,
+                              //               builder: (context) {
+                              //                 return EditKategori(
+                              //                     category: categories[index]);
+                              //               });
+                              //         },
+                              //         icon: Icon(Icons.create_rounded))),
+                              // Expanded(
+                              //     child: IconButton(
+                              //         color: Colors.red,
+                              //         onPressed: () {
+                              //           showDialog(
+                              //               context: context,
+                              //               builder: (context) {
+                              //                 return DeleteCategori(
+                              //                     category: categories[index]);
+                              //               });
+                              //         },
+                              //         icon: Icon(Icons.delete)))
                             ],
                           ),
                           onPressed: () {

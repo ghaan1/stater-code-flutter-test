@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
 
+import 'Components/already_have_an_account_acheck.dart';
 import 'Components/my_button.dart';
 import 'Components/my_textfield.dart';
 import 'Components/square_tile.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+  @override
+  State<LoginPage> createState() => _LoginState();
+}
 
+class _LoginState extends State<LoginPage> {
   // text editing controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -112,19 +118,19 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              // google + apple sign in buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  // google button
-                  SquareTile(imagePath: 'lib/images/google.png'),
+              // // google + apple sign in buttons
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: const [
+              //     // google button
+              //     SquareTile(imagePath: 'lib/images/google.png'),
 
-                  SizedBox(width: 25),
+              //     SizedBox(width: 25),
 
-                  // apple button
-                  SquareTile(imagePath: 'lib/images/apple.png')
-                ],
-              ),
+              //     // apple button
+              //     SquareTile(imagePath: 'lib/images/apple.png')
+              //   ],
+              // ),
 
               const SizedBox(height: 50),
 
@@ -132,17 +138,18 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Not a member?',
-                    style: TextStyle(color: Colors.grey[700]),
-                  ),
                   const SizedBox(width: 4),
-                  const Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  AlreadyHaveAnAccountCheck(
+                    press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return RegisterPage();
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ],
               )

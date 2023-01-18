@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-
+import 'package:startercodepacitan/Pages/Login%20Page/Components/my_button2.dart';
+import 'package:link_text/link_text.dart';
+import '../Login Page/Components/already_have_an_account_acheck.dart';
 import '../Login Page/Components/my_button.dart';
 import '../Login Page/Components/my_textfield.dart';
 import '../Login Page/Components/square_tile.dart';
+import '../Login Page/login_page.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+  @override
+  State<RegisterPage> createState() => _RegisterState();
+}
 
+class _RegisterState extends State<RegisterPage> {
   // text editing controllers
+
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordconfController = TextEditingController();
@@ -80,24 +88,10 @@ class RegisterPage extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                // forgot password?
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-
                 const SizedBox(height: 25),
 
                 // sign in button
-                MyButton(
+                MyButtons(
                   onTap: signUserIn,
                 ),
 
@@ -134,18 +128,18 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(height: 50),
 
                 // google + apple sign in buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    // google button
-                    SquareTile(imagePath: 'lib/images/google.png'),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: const [
+                //     // google button
+                //     SquareTile(imagePath: 'lib/images/google.png'),
 
-                    SizedBox(width: 25),
+                //     SizedBox(width: 25),
 
-                    // apple button
-                    SquareTile(imagePath: 'lib/images/apple.png')
-                  ],
-                ),
+                //     // apple button
+                //     SquareTile(imagePath: 'lib/images/apple.png')
+                //   ],
+                // ),
 
                 const SizedBox(height: 50),
 
@@ -153,17 +147,19 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'sudah punya akun ?',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
                     const SizedBox(width: 4),
-                    const Text(
-                      'Login sekarang',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    AlreadyHaveAnAccountCheck(
+                      login: false,
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginPage();
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ],
                 )
