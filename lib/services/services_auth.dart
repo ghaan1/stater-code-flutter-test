@@ -54,4 +54,23 @@ class ServicesAuth {
 
     return response;
   }
+
+  static Future<http.Response> register(String name, String email,
+      String password, String passwordConfirmation, String deviceId) async {
+    final url = Uri.parse('${baseUrl}auth/register');
+
+    final body = {
+      'name': name,
+      'email': email,
+      'password': password,
+      'password_confirmation': passwordConfirmation,
+      'device_name': deviceId,
+    };
+    final headers = {
+      'Accept': accept,
+    };
+
+    final response = await post(url, body: body, headers: headers);
+    return response;
+  }
 }
