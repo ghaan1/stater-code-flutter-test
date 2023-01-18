@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/Home/home_page.dart';
 import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
 
 import 'Pages/Login Page/login_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => MainHomePage(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
-        // "/mainhome": (context) => MainHome(),
+        "/mainhome": (context) => HomePage(),
         // "/mainlist": (context) => MainProfil(),
       },
       title: 'Flutter Stisla',
