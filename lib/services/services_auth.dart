@@ -9,11 +9,11 @@ class ServicesAuth {
       "device_name": "android",
     };
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'auth/login');
+    var url = Uri.parse('${baseUrl}auth/login');
 
     final header1 = {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
+      "Accept": accept,
+      "Content-Type": accept,
       "Access-Control_Allow_Origin": "*"
     };
 
@@ -25,7 +25,6 @@ class ServicesAuth {
 
     Map<String, dynamic> responseJson = json.decode(response.body);
 
-    // save token use shared preferences
     if (response.statusCode == 200) {
       SharedPreferences sp = await SharedPreferences.getInstance();
 
@@ -33,6 +32,25 @@ class ServicesAuth {
 
       print(sp.getString("token"));
     }
+
+    return response;
+  }
+
+  static Future<http.Response> logout(String token) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
+    var url = Uri.parse('${baseUrl}auth/logout');
+
+    final header = {
+      'Authorization': 'Bearer $token',
+    };
+
+    http.Response response = await http.post(
+      url,
+      headers: header,
+    );
+
+    sp.remove("token");
 
     return response;
   }

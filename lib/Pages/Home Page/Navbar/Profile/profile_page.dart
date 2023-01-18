@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:startercodepacitan/services/services.dart';
 
 import 'Components/bannerprofil.dart';
 
@@ -15,40 +16,40 @@ class _MainProfilState extends State<MainProfil> {
   String name = '';
   String email = '';
 
-  // getPref() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     const key = 'token';
-  //     const key1 = 'name';
-  //     const key2 = 'email';
-  //     final value = pref.get(key);
-  //     final value1 = pref.get(key1);
-  //     final value2 = pref.get(key2);
-  //     token = '$value';
-  //     name = '$value1';
-  //     email = '$value2';
-  //     txtName.text = name;
-  //     txtToken.text = token;
-  //     txtEmail.text = email;
-  //   });
-  // }
+  getPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      const key = 'token';
+      const key1 = 'name';
+      const key2 = 'email';
+      final value = pref.get(key);
+      final value1 = pref.get(key1);
+      final value2 = pref.get(key2);
+      token = '$value';
+      name = '$value1';
+      email = '$value2';
+      txtName.text = name;
+      txtToken.text = token;
+      txtEmail.text = email;
+    });
+  }
 
   @override
   void initState() {
-    // getPref();
+    getPref();
     super.initState();
   }
 
-  // logOut() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     preferences.remove("token");
-  //     preferences.clear();
-  //   });
-  //   // final token = txtToken.text;
-  //   // final response = await HttpHelper().logout(token);
-  //   // print(response.body);
-  // }
+  logOut() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.remove("token");
+      preferences.clear();
+    });
+    final token = txtToken.text;
+    final response = await ServicesAuth.logout(token);
+    print(response.body);
+  }
 
   final txtName = TextEditingController();
   final txtToken = TextEditingController();
@@ -132,7 +133,7 @@ class _MainProfilState extends State<MainProfil> {
                               ),
                               onPressed: () {
                                 Navigator.pushNamed(context, "/");
-                                // logOut();
+                                logOut();
                               },
                               child: const Text(
                                 'LOGOUT',
