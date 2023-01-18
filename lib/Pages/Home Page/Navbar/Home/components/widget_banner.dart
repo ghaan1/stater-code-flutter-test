@@ -35,7 +35,7 @@ class _WidgetBannerState extends State<WidgetBanner> {
             bottomLeft: Radius.circular(40),
             bottomRight: Radius.circular(40),
           ),
-          child: Image.asset("assets/images/bg-ungu.jpeg"),
+          child: Image.asset("lib/images/bg-ungu.jpeg"),
         ),
         SizedBox(
           height: 200,
