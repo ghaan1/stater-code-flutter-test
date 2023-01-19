@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startercodepacitan/Pages/Login%20Page/login_page.dart';
-import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
+
 import 'package:startercodepacitan/services/services.dart';
 import '../../../constants.dart';
 import '../../Home Page/landinghome_page.dart';
@@ -17,25 +18,25 @@ class RegisterFrom extends StatefulWidget {
   _PageRegisterState createState() => _PageRegisterState();
 }
 
-class HeadClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width / 4, size.height - 40, size.width / 2, size.height - 20);
-    path.quadraticBezierTo(
-        3 / 4 * size.width, size.height, size.width, size.height - 30);
-    path.lineTo(size.width, 0);
+// class HeadClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     Path path = Path();
+//     path.lineTo(0, size.height);
+//     path.quadraticBezierTo(
+//         size.width / 4, size.height - 40, size.width / 2, size.height - 20);
+//     path.quadraticBezierTo(
+//         3 / 4 * size.width, size.height, size.width, size.height - 30);
+//     path.lineTo(size.width, 0);
 
-    return path;
-  }
+//     return path;
+//   }
 
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    throw UnimplementedError();
-  }
-}
+//   @override
+//   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+//     throw UnimplementedError();
+//   }
+// }
 
 class _PageRegisterState extends State<RegisterFrom> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -142,182 +143,174 @@ class _PageRegisterState extends State<RegisterFrom> {
           padding: const EdgeInsets.all(30),
           //margin: EdgeInsets.all(8),
           child: Column(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Expanded(
-                flex: 3,
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: kPrimaryColor,
-                      fontFamily: 'nunito'),
-                ),
+              Text(
+                'Register',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: kPrimaryColor,
+                    fontFamily: 'nunito'),
               ),
-              Expanded(
-                flex: 12,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: txtUsername,
-                      decoration: InputDecoration(
-                        errorText: validateUsername(txtUsername.text),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 17),
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'Username',
-                        labelStyle: const TextStyle(
-                            color: Color(0xFF6777EE),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+              Column(
+                children: [
+                  TextFormField(
+                    controller: txtUsername,
+                    decoration: InputDecoration(
+                      errorText: validateUsername(txtUsername.text),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 17),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Username',
+                      labelStyle: const TextStyle(
+                          color: Color(0xFF6777EE),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito'),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                      controller: txtEmail,
-                      decoration: InputDecoration(
-                        errorText: validateEmail(txtEmail.text),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 17),
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'Email',
-                        labelStyle: const TextStyle(
-                            color: Color(0xFF6777EE),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    controller: txtEmail,
+                    decoration: InputDecoration(
+                      errorText: validateEmail(txtEmail.text),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 17),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Email',
+                      labelStyle: const TextStyle(
+                          color: Color(0xFF6777EE),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito'),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                      controller: txtPassword,
-                      decoration: InputDecoration(
-                        errorText: validatePassword(txtPassword.text),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 17),
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(
-                            color: Color(0xFF6777EE),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    controller: txtPassword,
+                    decoration: InputDecoration(
+                      errorText: validatePassword(txtPassword.text),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 17),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Password',
+                      labelStyle: const TextStyle(
+                          color: Color(0xFF6777EE),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito'),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                      controller: txtPasswordConf,
-                      decoration: InputDecoration(
-                        errorText: validatePasswordConf(txtPasswordConf.text),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 17),
-                        filled: true,
-                        fillColor: Colors.white,
-                        labelText: 'Password Confirmasi',
-                        labelStyle: const TextStyle(
-                            color: Color(0xFF6777EE),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Nunito'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF6777EE)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    controller: txtPasswordConf,
+                    decoration: InputDecoration(
+                      errorText: validatePasswordConf(txtPasswordConf.text),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 17),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Password Confirmasi',
+                      labelStyle: const TextStyle(
+                          color: Color(0xFF6777EE),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Nunito'),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            width: 3, color: Color(0xFF6777EE)),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 4,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 40,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF6777EE),
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                          ),
-                          onPressed: () {
-                            doRegister();
-                          },
-                          child: const Text("Register",
-                              style: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontWeight: FontWeight.bold))),
-                    ),
-                    SizedBox(
-                      child: TextButton(
-                        child: const Text(
-                          'Sudah punya akun?',
-                          style: TextStyle(
-                              fontFamily: 'nunito',
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF6777EE),
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const LoginPage();
-                              },
-                            ),
-                          );
+                          doRegister();
                         },
+                        child: const Text("Register",
+                            style: TextStyle(
+                                fontFamily: 'Nunito',
+                                fontWeight: FontWeight.bold))),
+                  ),
+                  SizedBox(
+                    child: TextButton(
+                      child: const Text(
+                        'Sudah punya akun?',
+                        style: TextStyle(
+                            fontFamily: 'nunito',
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryColor),
                       ),
-                    )
-                  ],
-                ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const LoginPage();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
               ),
             ],
           ),

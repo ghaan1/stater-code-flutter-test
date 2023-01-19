@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/Pages/Login%20Page/login_page.dart';
-import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
+import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 
 import '../../../constants.dart';
 
@@ -38,7 +38,7 @@ class LoginAndSignupBtn extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return RegisterPage();
+                  return RegisterPages();
                 },
               ),
             );

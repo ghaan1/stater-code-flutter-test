@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
 import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 import 'package:startercodepacitan/services/services.dart';
 import '../../../constants.dart';
@@ -40,7 +39,7 @@ class HeadClipper extends CustomClipper<Path> {
 
 class _PageLoginState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var txtEmail = TextEditingController(text: 'admin@admin.com');
+  var txtEmail = TextEditingController(text: 'superadmin@gmail.com');
   var txtPassword = TextEditingController(text: 'password');
 
   String? _emailResponseError;

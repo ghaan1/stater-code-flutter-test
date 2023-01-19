@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
 
 import '../Welcome Page/components/background.dart';
 import 'Components/already_have_an_account_acheck.dart';

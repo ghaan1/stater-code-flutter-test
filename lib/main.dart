@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/Home/home_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/landinghome_page.dart';
-import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 
 import 'Pages/Login Page/login_page.dart';
 import 'Pages/Welcome Page/mainhome_page.dart';
@@ -18,10 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        // "/": (context) => MainHomePage(),
-        "/": (context) => LandingHome(),
+        "/": (context) => MainHomePage(),
+        // "/": (context) => LandingHome(),
         "/login": (context) => const LoginPage(),
-        "/register": (context) => const RegisterPage(),
+        "/register": (context) => const RegisterPages(),
         "/mainhome": (context) => const LandingHome(),
         // "/mainlist": (context) => MainProfil(),
       },
