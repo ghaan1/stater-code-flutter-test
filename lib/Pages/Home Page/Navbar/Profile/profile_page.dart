@@ -44,6 +44,8 @@ class _MainProfilState extends State<MainProfil> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.remove("token");
+      preferences.remove("name");
+      preferences.remove("email");
       preferences.clear();
     });
     final token = txtToken.text;

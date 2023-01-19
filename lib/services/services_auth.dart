@@ -33,6 +33,9 @@ class ServicesAuth {
       print(sp.getString("token"));
     }
 
+    _save('token', responseJson['token']);
+    _save('name', responseJson['name']);
+    _save('email', responseJson['email']);
     return response;
   }
 
@@ -72,5 +75,10 @@ class ServicesAuth {
 
     final response = await post(url, body: body, headers: headers);
     return response;
+  }
+
+  static _save(String key, String data) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, data);
   }
 }
