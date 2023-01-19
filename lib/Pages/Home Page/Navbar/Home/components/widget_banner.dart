@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../models/models_user.dart';
+import '../../../../../provider/provider_user.dart';
 
 class WidgetBanner extends StatefulWidget {
   const WidgetBanner({Key? key}) : super(key: key);
@@ -28,6 +32,7 @@ class _WidgetBannerState extends State<WidgetBanner> {
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<UserProvider>(context).user;
     return Stack(
       children: [
         ClipRRect(
@@ -55,7 +60,7 @@ class _WidgetBannerState extends State<WidgetBanner> {
               ),
               const SizedBox(height: 10),
               Text(
-                name,
+                user.name ?? '',
                 style: const TextStyle(
                   letterSpacing: 2,
                   color: Colors.white,

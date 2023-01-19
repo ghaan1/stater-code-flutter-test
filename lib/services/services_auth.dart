@@ -1,13 +1,33 @@
 part of 'services.dart';
 
-class ServicesAuth {
-  static Future<http.Response> login(
+enum Status {
+  NotLoggedIn,
+  NotRegistered,
+  LoggedIn,
+  Registered,
+  Authenticating,
+  Registering,
+  LoggedOut
+}
+
+class ServicesAuth with ChangeNotifier {
+  Status _loggedInStatus = Status.NotLoggedIn;
+  Status _registeredInStatus = Status.NotRegistered;
+
+  Status get loggedInStatus => _loggedInStatus;
+  Status get registeredInStatus => _registeredInStatus;
+
+  Future<http.Response> login(
       String email, String password, String deviceId) async {
+    var result;
     Map data = {
       "email": email,
       "password": password,
       "device_name": "android",
     };
+
+    _loggedInStatus = Status.Authenticating;
+    notifyListeners();
     var body = json.encode(data);
     var url = Uri.parse('${baseUrl}login');
 
@@ -23,19 +43,31 @@ class ServicesAuth {
       body: body,
     );
 
-    Map<String, dynamic> responseJson = json.decode(response.body);
+    // _save('token', responseJson['token']);
+    // _save('name', responseJson['name']);
+    // _save('email', responseJson['email']);
 
     if (response.statusCode == 200) {
-      SharedPreferences sp = await SharedPreferences.getInstance();
+      Map<String, dynamic> responseJson = json.decode(response.body);
 
-      sp.setString("token", responseJson['token']);
-
-      print(sp.getString("token"));
+      // SharedPreferences sp = await SharedPreferences.getInstance();
+      var userData = responseJson;
+      User authUser = User.fromJson(userData);
+      saveUser(authUser);
+      // sp.setString("token", responseJson['token']);
+      _loggedInStatus = Status.LoggedIn;
+      notifyListeners();
+      // print(sp.getString("token"));
+      result = {'status': true, 'message': 'Successful', 'user': authUser};
+    } else {
+      _loggedInStatus = Status.NotLoggedIn;
+      notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['error']
+      };
     }
-
-    _save('token', responseJson['token']);
-    _save('name', responseJson['name']);
-    _save('email', responseJson['email']);
+    print(result);
     return response;
   }
 
@@ -77,8 +109,44 @@ class ServicesAuth {
     return response;
   }
 
-  static _save(String key, String data) async {
+  _save(String key, String data) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, data);
+  }
+
+  Future<bool> saveUser(User user) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString("name", user.name ?? '');
+    prefs.setString("email", user.email ?? '');
+    prefs.setString("token", user.token ?? '');
+
+    return true;
+  }
+
+  Future<User> getUser() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    const key = 'token';
+    const key1 = 'name';
+    const key2 = 'email';
+
+    final value = pref.get(key);
+    final value1 = pref.get(key1);
+    final value2 = pref.get(key2);
+
+    final token = '$value';
+    final name = '$value1';
+    final email = '$value2';
+
+    return User(name: name, email: email, token: token);
+  }
+
+  void removeUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.remove("name");
+    prefs.remove("email");
+    prefs.remove("token");
   }
 }

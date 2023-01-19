@@ -1,13 +1,16 @@
 class User {
-  String name;
-  String email;
+  String? name;
+  String? email;
+  String? token;
 
   User({
-    required this.name,
-    required this.email,
+    this.name,
+    this.email,
+    this.token,
   });
 
   User.fromJson(Map json)
       : name = json['name'],
-        email = json['email'];
+        email = json['email'],
+        token = json['token'];
 }
