@@ -5,5 +5,5 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'services_auth.dart';
 
-const String baseUrl = "https://cd14-103-108-20-75.ap.ngrok.io/api/";
+const String baseUrl = "http://192.168.0.100:8000/api/";
 const String accept = "application/json";

@@ -40,7 +40,7 @@ class HeadClipper extends CustomClipper<Path> {
 
 class _PageLoginState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var txtEmail = TextEditingController(text: 'superadmin@gmail.com');
+  var txtEmail = TextEditingController(text: 'admin@admin.com');
   var txtPassword = TextEditingController(text: 'password');
 
   String? _emailResponseError;

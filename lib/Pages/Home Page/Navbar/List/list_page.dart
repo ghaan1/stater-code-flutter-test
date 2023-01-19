@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/Create/create_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/Components/dialog.dart';
 
 import 'Components/bannerlist_page.dart';
@@ -67,6 +68,29 @@ class _MainListState extends State<MainList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF6777EE),
+        onPressed: () {
+          // showDialog(
+          //     context: context,
+          //     builder: (context) {
+          //       // return const TambahKategori();
+          //     });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const TambahQoute();
+              },
+            ),
+          );
+        },
+        child: const Icon(
+          Icons.add,
+          size: 40,
+          color: Colors.white,
+        ),
+      ),
       body: <Widget>[
         Column(
           children: [
