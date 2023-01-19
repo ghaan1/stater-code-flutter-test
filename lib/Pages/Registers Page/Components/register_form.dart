@@ -2,20 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:startercodepacitan/Pages/Login%20Page/login_page.dart';
 import 'package:startercodepacitan/Pages/Register%20Page/register_page.dart';
-import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 import 'package:startercodepacitan/services/services.dart';
 import '../../../constants.dart';
 import '../../Home Page/landinghome_page.dart';
-import 'already_have_an_account_acheck.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+class RegisterFrom extends StatefulWidget {
+  const RegisterFrom({
     Key? key,
   }) : super(key: key);
 
   @override
-  _PageLoginState createState() => _PageLoginState();
+  _PageRegisterState createState() => _PageRegisterState();
 }
 
 class HeadClipper extends CustomClipper<Path> {
@@ -38,14 +37,27 @@ class HeadClipper extends CustomClipper<Path> {
   }
 }
 
-class _PageLoginState extends State<LoginForm> {
+class _PageRegisterState extends State<RegisterFrom> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var txtUsername = TextEditingController(text: 'bili yasimaru');
   var txtEmail = TextEditingController(text: 'superadmin@gmail.com');
   var txtPassword = TextEditingController(text: 'password');
+  var txtPasswordConf = TextEditingController(text: 'password');
 
+  String? _usernameResponseError;
   String? _emailResponseError;
   String? _passwordResponseError;
+  String? _passwordConfResponseError;
   int? _statusCode;
+
+  String? validateUsername(String value) {
+    if (!value.isNotEmpty) {
+      return "Username Masih Kosong";
+    } else if (_statusCode != 200) {
+      return _usernameResponseError;
+    }
+    return null;
+  }
 
   String? validateEmail(String value) {
     if (!value.isNotEmpty) {
@@ -67,11 +79,23 @@ class _PageLoginState extends State<LoginForm> {
     return null;
   }
 
-  Future doLogin() async {
+  String? validatePasswordConf(String value) {
+    if (!value.isNotEmpty) {
+      return "Password Masih Kosong";
+    } else if (_statusCode != 200) {
+      return _passwordConfResponseError;
+    }
+    return null;
+  }
+
+  Future doRegister() async {
+    final username = txtUsername.text;
     final email = txtEmail.text;
     final password = txtPassword.text;
+    final passwordconf = txtPasswordConf.text;
     const deviceId = "12345";
-    final response = await ServicesAuth.login(email, password, deviceId);
+    final response = await ServicesAuth.register(
+        username, email, password, passwordconf, deviceId);
     print(response.body);
     _statusCode = response.statusCode;
 
@@ -92,11 +116,15 @@ class _PageLoginState extends State<LoginForm> {
       var errors = object['errors'];
       setState(() {
         if (errors.length > 1) {
+          _usernameResponseError = errors['username'][0];
           _emailResponseError = errors['email'][0];
           _passwordResponseError = errors['password'][0];
+          _passwordConfResponseError = errors['passwordconfrim'][0];
         } else {
           if (errors.containsKey('email')) {
             _emailResponseError = errors['email'][0];
+          } else if (errors.containsKey('username')) {
+            _usernameResponseError = errors['username'][0];
           } else {
             _passwordResponseError = errors['password'][0];
           }
@@ -118,7 +146,7 @@ class _PageLoginState extends State<LoginForm> {
               const Expanded(
                 flex: 3,
                 child: Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
@@ -127,9 +155,37 @@ class _PageLoginState extends State<LoginForm> {
                 ),
               ),
               Expanded(
-                flex: 5,
+                flex: 12,
                 child: Column(
                   children: [
+                    TextFormField(
+                      controller: txtUsername,
+                      decoration: InputDecoration(
+                        errorText: validateUsername(txtUsername.text),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 17),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Username',
+                        labelStyle: const TextStyle(
+                            color: Color(0xFF6777EE),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nunito'),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     TextFormField(
                       controller: txtEmail,
                       decoration: InputDecoration(
@@ -183,29 +239,44 @@ class _PageLoginState extends State<LoginForm> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      child: TextButton(
-                        child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Lupa Password ?',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontFamily: 'nunito',
-                                fontWeight: FontWeight.bold,
-                                color: kPrimaryColor),
-                          ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextFormField(
+                      controller: txtPasswordConf,
+                      decoration: InputDecoration(
+                        errorText: validatePasswordConf(txtPasswordConf.text),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 17),
+                        filled: true,
+                        fillColor: Colors.white,
+                        labelText: 'Password Confirmasi',
+                        labelStyle: const TextStyle(
+                            color: Color(0xFF6777EE),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nunito'),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        onPressed: () {},
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              width: 3, color: Color(0xFF6777EE)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     SizedBox(
                       height: 40,
                       width: double.infinity,
@@ -217,9 +288,9 @@ class _PageLoginState extends State<LoginForm> {
                                 borderRadius: BorderRadius.circular(15)),
                           ),
                           onPressed: () {
-                            doLogin();
+                            doRegister();
                           },
-                          child: const Text("Login",
+                          child: const Text("Register",
                               style: TextStyle(
                                   fontFamily: 'Nunito',
                                   fontWeight: FontWeight.bold))),
@@ -227,7 +298,7 @@ class _PageLoginState extends State<LoginForm> {
                     SizedBox(
                       child: TextButton(
                         child: const Text(
-                          'Belum punya akun?',
+                          'Sudah punya akun?',
                           style: TextStyle(
                               fontFamily: 'nunito',
                               fontWeight: FontWeight.bold,
@@ -238,7 +309,7 @@ class _PageLoginState extends State<LoginForm> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const RegisterPages();
+                                return const LoginPage();
                               },
                             ),
                           );

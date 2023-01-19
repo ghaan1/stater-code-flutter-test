@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/constants.dart';
 
-import 'custom_circle.dart';
+import '../../Login Page/Components/custom_circle.dart';
 
-class WelcomeBack extends StatelessWidget {
-  const WelcomeBack({Key? key}) : super(key: key);
+class WelcomeStisla extends StatelessWidget {
+  const WelcomeStisla({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class WelcomeBack extends StatelessWidget {
           const Align(
             alignment: Alignment.center,
             child: Text(
-              "Welcome\nBack",
+              "Welcome\nStisla",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 60,

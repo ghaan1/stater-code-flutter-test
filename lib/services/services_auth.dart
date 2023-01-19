@@ -9,7 +9,7 @@ class ServicesAuth {
       "device_name": "android",
     };
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}auth/login');
+    var url = Uri.parse('${baseUrl}login');
 
     final header1 = {
       "Accept": accept,
@@ -39,7 +39,7 @@ class ServicesAuth {
   static Future<http.Response> logout(String token) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
 
-    var url = Uri.parse('${baseUrl}auth/logout');
+    var url = Uri.parse('${baseUrl}logout');
 
     final header = {
       'Authorization': 'Bearer $token',
@@ -57,7 +57,7 @@ class ServicesAuth {
 
   static Future<http.Response> register(String name, String email,
       String password, String passwordConfirmation, String deviceId) async {
-    final url = Uri.parse('${baseUrl}auth/register');
+    final url = Uri.parse('${baseUrl}register');
 
     final body = {
       'name': name,
