@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/landinghome_page.dart';
+import 'package:startercodepacitan/services/services.dart';
 // import 'package:stislaflutter/api/crud_helper.dart';
 
 class TambahQoute extends StatefulWidget {
@@ -10,15 +11,17 @@ class TambahQoute extends StatefulWidget {
 }
 
 class _TambahQouteState extends State<TambahQoute> {
-  final TextEditingController txtAddCategory = TextEditingController();
+  final TextEditingController txtAuthor = TextEditingController();
+  final TextEditingController txtIsiQuote = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        width: MediaQuery.of(context).size.width / 1.4,
-        height: MediaQuery.of(context).size.height / 2.667,
+        padding: EdgeInsets.all(8),
+        width: MediaQuery.of(context).size.width / 2.3,
+        height: MediaQuery.of(context).size.height / 2.3,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15.0),
@@ -45,14 +48,14 @@ class _TambahQouteState extends State<TambahQoute> {
             ),
             Container(
               child: TextFormField(
-                controller: txtAddCategory,
+                controller: txtAuthor,
                 decoration: InputDecoration(
                   // errorText: validateEmail(txtEmail.text),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
                   filled: true,
                   fillColor: Colors.white,
-                  labelText: 'Judul Qoutes',
+                  labelText: 'Author Qoutes',
                   labelStyle: const TextStyle(
                       color: Color(0xFF6777EE),
                       fontWeight: FontWeight.bold,
@@ -75,7 +78,7 @@ class _TambahQouteState extends State<TambahQoute> {
             ),
             Container(
               child: TextFormField(
-                controller: txtAddCategory,
+                controller: txtIsiQuote,
                 decoration: InputDecoration(
                   // errorText: validateEmail(txtEmail.text),
                   contentPadding:
@@ -113,15 +116,15 @@ class _TambahQouteState extends State<TambahQoute> {
                     elevation: 10,
                   ),
                   onPressed: () {
-                    // doAddCategory();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const LandingHome();
-                        },
-                      ),
-                    );
+                    doAddQuote();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return const LandingHome();
+                    //     },
+                    //   ),
+                    // );
                   },
                   child: const Text("Tambah",
                       style: TextStyle(
@@ -132,10 +135,11 @@ class _TambahQouteState extends State<TambahQoute> {
       ),
     );
   }
-  //  doAddCategory() async{
-  //   final name = txtAddCategory.text;
-  //   final response = await CrudHelper().addCategory(name);
-  //   print(response.body);
-  //    Navigator.of(context).pop(false);
-  // }
+
+  doAddQuote() async {
+    final response =
+        await ServicesQuote().addQuote(txtAuthor.text, txtIsiQuote.text);
+    print(response.body);
+    Navigator.of(context).pop(false);
+  }
 }

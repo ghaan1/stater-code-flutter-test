@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../models/models_quote.dart';
+
 class DialogList extends StatefulWidget {
-  // Category category;
+  Quote quote;
   DialogList({
     Key? key,
-    // required this.category,
+    required this.quote,
   }) : super(key: key);
   @override
   State<DialogList> createState() => _DialogListState();
@@ -16,7 +18,7 @@ class _DialogListState extends State<DialogList> {
   @override
   void initState() {
     super.initState();
-    // text = widget.category!.name;
+    text = widget.quote!.quote;
   }
 
   @override

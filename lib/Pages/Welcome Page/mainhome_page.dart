@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:startercodepacitan/Pages/Welcome%20Page/welcome_page.dart';
 
 import '../../constants.dart';
+import '../../models/models_user.dart';
+import '../../provider/provider_user.dart';
 import 'components/login_signup_btn.dart';
 import 'components/welcome_image.dart';
 
 class MainHomePage extends StatelessWidget {
-  MainHomePage({super.key});
+  final User user;
+  MainHomePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<UserProvider>(context).setUser(user);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Stisla',
@@ -37,7 +42,7 @@ class MainHomePage extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: const WelcomePage(),
+      home: WelcomePage(),
     );
   }
 }

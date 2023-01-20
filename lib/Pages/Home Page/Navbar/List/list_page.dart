@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/Create/create_page.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/create_page.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/delete_page.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/edit_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/Components/dialog.dart';
+import 'package:startercodepacitan/models/models_quote.dart';
+import 'package:startercodepacitan/services/services.dart';
 
 import 'Components/bannerlist_page.dart';
 
@@ -15,10 +19,9 @@ class MainList extends StatefulWidget {
 }
 
 class _MainListState extends State<MainList> {
-  List listUsers = [];
-  String name = '';
+  // String? text = '';
   List<String> user = [];
-  // List<Category> categories = [];
+  List<Quote> quotes = [];
   int selectedIndex = 0;
   int currentPage = 1;
   int lastPage = 0;
@@ -26,25 +29,25 @@ class _MainListState extends State<MainList> {
   final ScrollController scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
-  // fetchData() {
-  //   CrudHelper.getCategories(currentPage.toString()).then((resultList) {
-  //     setState(() {
-  //       categories = resultList[0];
-  //       lastPage = resultList[1];
-  //       isLoading = false;
-  //     });
-  //   });
-  // }
+  fetchData() {
+    ServicesQuote.getQuotes(currentPage.toString()).then((resultList) {
+      setState(() {
+        quotes = resultList[0];
+        lastPage = resultList[1];
+        isLoading = false;
+      });
+    });
+  }
 
-  // addMoreData() {
-  //   CrudHelper.getCategories(currentPage.toString()).then((resultList) {
-  //     setState(() {
-  //       categories.addAll(resultList[0]);
-  //       lastPage = resultList[1];
-  //       isLoading = false;
-  //     });
-  //   });
-  // }
+  addMoreData() {
+    ServicesQuote.getQuotes(currentPage.toString()).then((resultList) {
+      setState(() {
+        quotes.addAll(resultList[0]);
+        lastPage = resultList[1];
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -56,13 +59,12 @@ class _MainListState extends State<MainList> {
           setState(() {
             isLoading = true;
             currentPage++;
-            // addMoreData();
+            addMoreData();
           });
         }
       }
     });
-
-    // fetchData();
+    fetchData();
   }
 
   @override
@@ -71,19 +73,19 @@ class _MainListState extends State<MainList> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF6777EE),
         onPressed: () {
-          // showDialog(
-          //     context: context,
-          //     builder: (context) {
-          //       // return const TambahKategori();
-          //     });
-          Navigator.push(
-            context,
-            MaterialPageRoute(
+          showDialog(
+              context: context,
               builder: (context) {
                 return const TambahQoute();
-              },
-            ),
-          );
+              });
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) {
+          //       return const TambahQoute();
+          //     },
+          //   ),
+          // );
         },
         child: const Icon(
           Icons.add,
@@ -101,7 +103,7 @@ class _MainListState extends State<MainList> {
                   controller: scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(10),
-                  // itemCount: categories.length,
+                  itemCount: quotes.length,
                   itemBuilder: (context, index) {
                     return Container(
                         width: double.infinity,
@@ -124,42 +126,42 @@ class _MainListState extends State<MainList> {
                                           BorderRadius.circular(15)))),
                           child: Row(
                             children: [
-                              // Expanded(
-                              //   flex: 7,
-                              //   child: Text(
-                              //     categories[index].name,
-                              //     style: const TextStyle(
-                              //       color: Color(0xFF6777EE),
-                              //       fontFamily: 'Nunito',
-                              //       fontWeight: FontWeight.bold,
-                              //     ),
-                              //     textAlign: TextAlign.start,
-                              //   ),
-                              // ),
-                              // Expanded(
-                              //     child: IconButton(
-                              //         color: Colors.black,
-                              //         onPressed: () {
-                              //           showDialog(
-                              //               context: context,
-                              //               builder: (context) {
-                              //                 return EditKategori(
-                              //                     category: categories[index]);
-                              //               });
-                              //         },
-                              //         icon: Icon(Icons.create_rounded))),
-                              // Expanded(
-                              //     child: IconButton(
-                              //         color: Colors.red,
-                              //         onPressed: () {
-                              //           showDialog(
-                              //               context: context,
-                              //               builder: (context) {
-                              //                 return DeleteCategori(
-                              //                     category: categories[index]);
-                              //               });
-                              //         },
-                              //         icon: Icon(Icons.delete)))
+                              Expanded(
+                                flex: 7,
+                                child: Text(
+                                  quotes[index].quote ?? '',
+                                  style: const TextStyle(
+                                    color: Color(0xFF6777EE),
+                                    fontFamily: 'Nunito',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              Expanded(
+                                  child: IconButton(
+                                      color: Colors.black,
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return EditQoute(
+                                                  quote: quotes[index]);
+                                            });
+                                      },
+                                      icon: Icon(Icons.create_rounded))),
+                              Expanded(
+                                  child: IconButton(
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return DeleteQuote(
+                                                  quote: quotes[index]);
+                                            });
+                                      },
+                                      icon: Icon(Icons.delete)))
                             ],
                           ),
                           onPressed: () {
@@ -167,8 +169,8 @@ class _MainListState extends State<MainList> {
                                 context: context,
                                 builder: (context) {
                                   return DialogList(
-                                      // category: categories[index],
-                                      );
+                                    quote: quotes[index],
+                                  );
                                 });
                           },
                         ));

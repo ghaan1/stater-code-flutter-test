@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 import 'package:startercodepacitan/services/services.dart';
@@ -70,7 +71,7 @@ class _PageLoginState extends State<LoginForm> {
     final email = txtEmail.text;
     final password = txtPassword.text;
     const deviceId = "12345";
-    final response = await ServicesAuth.login(email, password, deviceId);
+    final response = await ServicesAuth().login(email, password, deviceId);
     print(response.body);
     _statusCode = response.statusCode;
 
@@ -106,6 +107,7 @@ class _PageLoginState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    ServicesAuth auth = Provider.of<ServicesAuth>(context);
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
