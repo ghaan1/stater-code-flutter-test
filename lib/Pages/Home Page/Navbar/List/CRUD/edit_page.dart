@@ -16,8 +16,8 @@ class _EditQouteState extends State<EditQoute> {
   @override
   void initState() {
     super.initState();
-    txtAuthor.text = widget.quote!.author;
-    txtIsiQuote.text = widget.quote!.quote;
+    // txtAuthor.text = widget.quote.author;
+    // txtIsiQuote.text = widget.quote.quote;
   }
 
   final TextEditingController txtAuthor = TextEditingController();

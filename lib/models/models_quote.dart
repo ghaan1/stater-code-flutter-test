@@ -1,12 +1,12 @@
 class Quote {
-  int id;
-  String quote;
-  String author;
+  int? id;
+  String? quote;
+  String? author;
 
   Quote({
-    required this.id,
-    required this.quote,
-    required this.author,
+    this.id,
+    this.quote,
+    this.author,
   });
 
   Quote.fromJson(Map json)

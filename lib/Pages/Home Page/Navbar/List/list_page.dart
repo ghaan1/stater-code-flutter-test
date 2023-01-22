@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/create_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/delete_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/edit_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/Components/dialog.dart';
 import 'package:startercodepacitan/models/models_quote.dart';
+import 'package:startercodepacitan/provider/provider_qoutes.dart';
 import 'package:startercodepacitan/services/services.dart';
 
 import 'Components/bannerlist_page.dart';
@@ -69,6 +71,9 @@ class _MainListState extends State<MainList> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<QouteListProvider>(context).getAllQoutes(quote);
+
+    Quote quote = Provider.of<QouteListProvider>(context).quote;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF6777EE),
@@ -76,6 +81,8 @@ class _MainListState extends State<MainList> {
           showDialog(
               context: context,
               builder: (context) {
+                print(quote.author);
+
                 return const TambahQoute();
               });
           // Navigator.push(
@@ -129,7 +136,7 @@ class _MainListState extends State<MainList> {
                               Expanded(
                                 flex: 7,
                                 child: Text(
-                                  quotes[index].quote ?? '',
+                                  quote.quote ?? '',
                                   style: const TextStyle(
                                     color: Color(0xFF6777EE),
                                     fontFamily: 'Nunito',

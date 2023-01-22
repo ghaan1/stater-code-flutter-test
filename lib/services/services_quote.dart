@@ -1,6 +1,6 @@
 part of 'services.dart';
 
-class ServicesQuote {
+class ServicesQuote with ChangeNotifier {
   final String token = '';
   // static Future<List<dynamic>> getQuotes(String page) async {
   static Future<List<dynamic>> getQuotes(String page) async {
@@ -17,7 +17,7 @@ class ServicesQuote {
       'Accept': accept,
     };
     final response = await get(url, headers: headers);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       var jsonObject = json.decode(response.body);
       List<dynamic> listQuotes = (jsonObject as Map<String, dynamic>)['data'];

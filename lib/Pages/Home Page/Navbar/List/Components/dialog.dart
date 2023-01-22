@@ -18,7 +18,7 @@ class _DialogListState extends State<DialogList> {
   @override
   void initState() {
     super.initState();
-    text = widget.quote!.quote;
+    // text = widget.quote!.quote;
   }
 
   @override

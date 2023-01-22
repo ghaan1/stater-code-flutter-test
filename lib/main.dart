@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           // "/": (context) => LandingHome(),
           "/login": (context) => const LoginPage(),
           "/register": (context) => const RegisterPages(),
-          "/mainhome": (context) => const LandingHome(),
+          // "/mainhome": (context) => const LandingHome(),
           // "/mainlist": (context) => MainProfil(),
         },
         title: 'Flutter Stisla',
