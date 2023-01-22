@@ -2,11 +2,13 @@ part of 'services.dart';
 
 class ServicesQuote {
   final String token = '';
+  // static Future<List<dynamic>> getQuotes(String page) async {
   static Future<List<dynamic>> getQuotes(String page) async {
     var url = Uri.parse('${baseUrl}quote?page=$page');
 
     List<Quote> quotes = [];
     List<dynamic> quotesServices = [];
+
     final prefs = await SharedPreferences.getInstance();
     const key = "token";
     final token = prefs.get(key);

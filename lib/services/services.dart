@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:html';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -10,5 +12,5 @@ import 'package:startercodepacitan/models/models_user.dart';
 part 'services_auth.dart';
 part 'services_quote.dart';
 
-const String baseUrl = "http://192.168.0.100:8000/api/";
+const String baseUrl = "http://192.168.1.6:8000/api/";
 const String accept = "application/json";
