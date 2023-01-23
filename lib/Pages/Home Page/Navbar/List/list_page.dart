@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/create_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/delete_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/edit_page.dart';
@@ -21,18 +22,35 @@ class MainList extends StatefulWidget {
 }
 
 class _MainListState extends State<MainList> {
-  // String? text = '';
   List<String> user = [];
   List<Quote> quotes = [];
   int selectedIndex = 0;
   int currentPage = 1;
   int lastPage = 0;
   bool isLoading = true;
+  String quote = '';
+  String author = '';
+  int id = 0;
+  getPref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      const key = 'quote';
+      const key1 = 'author';
+      const key2 = 'id';
+      final value = pref.get(key);
+      final value1 = pref.get(key1);
+      final value2 = pref.get(key2);
+      quote = '$value';
+      author = '$value1';
+      id = '$value2' as int;
+    });
+  }
+
   final ScrollController scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
   fetchData() {
-    ServicesQuote.getQuotes(currentPage.toString()).then((resultList) {
+    ServicesQuote().listQuote(currentPage.toString()).then((resultList) {
       setState(() {
         quotes = resultList[0];
         lastPage = resultList[1];
@@ -42,7 +60,7 @@ class _MainListState extends State<MainList> {
   }
 
   addMoreData() {
-    ServicesQuote.getQuotes(currentPage.toString()).then((resultList) {
+    ServicesQuote().listQuote(currentPage.toString()).then((resultList) {
       setState(() {
         quotes.addAll(resultList[0]);
         lastPage = resultList[1];
@@ -71,9 +89,9 @@ class _MainListState extends State<MainList> {
 
   @override
   Widget build(BuildContext context) {
-    // Provider.of<QouteListProvider>(context).getAllQoutes();
-
-    Provider.of<ServicesQuote>(context);
+    final _qouteProvider = Provider.of<QouteListProvider>(context);
+    Provider.of<QouteListProvider>(context).getAllQoutes(_qouteProvider.quote);
+    // context.read<ServicesQuote>.getQuotes(quote);
     Quote quote = Provider.of<QouteListProvider>(context).quote;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
