@@ -16,7 +16,7 @@ class _LoginState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void signUserIn() {}
+  // void signUserIn() {}
 
   @override
   Widget build(BuildContext context) {

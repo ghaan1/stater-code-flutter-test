@@ -10,11 +10,12 @@ import 'components/welcome_image.dart';
 
 class MainHomePage extends StatelessWidget {
   final User user;
-  MainHomePage({super.key, required this.user});
+  const MainHomePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserProvider>(context).setUser(user);
+    final _userProvider = Provider.of<UserProvider>(context);
+    Provider.of<UserProvider>(context).setUser(_userProvider.user);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Stisla',
@@ -24,7 +25,7 @@ class MainHomePage extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: kPrimaryColor,
+              backgroundColor: kPrimaryColor,
               shape: const StadiumBorder(),
               maximumSize: const Size(double.infinity, 56),
               minimumSize: const Size(double.infinity, 56),
