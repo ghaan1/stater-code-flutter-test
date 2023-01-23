@@ -32,7 +32,7 @@ class _WidgetBannerState extends State<WidgetBanner> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<UserProvider>(context).user;
+    Provider.of<UserProvider>(context).user.name;
     return Stack(
       children: [
         ClipRRect(
@@ -60,7 +60,7 @@ class _WidgetBannerState extends State<WidgetBanner> {
               ),
               const SizedBox(height: 10),
               Text(
-                user.name ?? '',
+                name,
                 style: const TextStyle(
                   letterSpacing: 2,
                   color: Colors.white,

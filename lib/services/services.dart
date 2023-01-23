@@ -11,5 +11,5 @@ import 'package:startercodepacitan/models/models_user.dart';
 part 'services_auth.dart';
 part 'services_quote.dart';
 
-const String baseUrl = "http://192.168.1.6:8000/api/";
+const String baseUrl = "http://192.168.1.2:8000/api/";
 const String accept = "application/json";
