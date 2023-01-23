@@ -71,8 +71,9 @@ class _MainListState extends State<MainList> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<QouteListProvider>(context).getAllQoutes(quote);
+    // Provider.of<QouteListProvider>(context).getAllQoutes();
 
+    Provider.of<ServicesQuote>(context);
     Quote quote = Provider.of<QouteListProvider>(context).quote;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
