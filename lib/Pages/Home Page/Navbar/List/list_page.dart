@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/create_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/delete_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/edit_page.dart';
@@ -22,15 +21,20 @@ class MainList extends StatefulWidget {
 }
 
 class _MainListState extends State<MainList> {
-  List<String> user = [];
-  List<Quote> quotes = [];
-  int selectedIndex = 0;
+  // List<String> user = [];
+  // List<Quote> quotes = [];
+  // int selectedIndex = 0;
   int currentPage = 1;
-  int lastPage = 0;
-  bool isLoading = true;
-  // String quote = '';
+  late int totalPage;
+  List<Quote> quotes = [];
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: true);
+
+  // int lastPage = 0;
+  // bool isLoading = true;
+  // String? quote;
   // String author = '';
-  int id = 0;
+  // int id = 0;
 
   // getPref() async {
   //   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -47,57 +51,74 @@ class _MainListState extends State<MainList> {
   //   });
   // }
 
-  final ScrollController scrollController = ScrollController();
-  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
 
-  fetchData() {
-    ServicesQuote().getQuotes(currentPage.toString()).then((resultList) {
-      setState(() {
-        quotes = resultList[0];
-        lastPage = resultList[1];
-        isLoading = false;
-      });
-    });
-  }
+  // fetchData() {
+  //   ServicesQuote().getMyData(currentPage.toString()).then((resultList) {
+  //     setState(() {
+  //       quotes = resultList[0];
+  //       lastPage = resultList[1];
+  //       isLoading = false;
+  //     });
+  //   });
+  // }
 
-  addMoreData() {
-    ServicesQuote().getQuotes(currentPage.toString()).then((resultList) {
-      setState(() {
-        quotes.addAll(resultList[0]);
-        lastPage = resultList[1];
-        isLoading = false;
-      });
-    });
-  }
+  // addMoreData() {
+  //   ServicesQuote().getMyData(currentPage.toString()).then((resultList) {
+  //     setState(() {
+  //       quotes.addAll(resultList[0]);
+  //       lastPage = resultList[1];
+  //       isLoading = false;
+  //     });
+  //   });
+  // }
+  getQuoteData({bool isRefresh = false}) async {
+    if (isRefresh) {
+      currentPage = 1;
+    } else {
+      if (currentPage >= totalPage) {
+        refreshController.loadNoData();
+        return false;
+      }
+    }
+    final dataProvider = Provider.of<QouteListProvider>(context, listen: false);
+    dataProvider.getMyData(currentPage);
 
-  provider() {
-    setState(() {});
+    if (isRefresh) {
+      quotes = dataProvider.responseData.data!;
+    } else {
+      quotes.addAll(dataProvider.responseData.data!);
+    }
+    currentPage++;
+
+    totalPage = dataProvider.responseData.totalPages!;
+    // setState(() {});
+    return true;
   }
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      if (scrollController.offset ==
-          scrollController.position.maxScrollExtent) {
-        if (currentPage < lastPage) {
-          setState(() {
-            isLoading = true;
-            currentPage++;
-            addMoreData();
-          });
-        }
-      }
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<QouteListProvider>(context, listen: false)
-          .getAllQuote(currentPage.toString());
-    });
-    fetchData();
+    getQuoteData();
+    // scrollController.addListener(() {
+    //   if (scrollController.offset ==
+    //       scrollController.position.maxScrollExtent) {
+    //     if (currentPage < lastPage) {
+    //       setState(() {
+    //         isLoading = true;
+    //         currentPage++;
+    //         // addMoreData();
+    //       });
+    //     }
+    //   }
   }
+
+  //   // fetchData();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<QouteListProvider>(context);
     // final qouteProvider = Provider.of<QouteListProvider>(context);
     // List quote = quotes;
 
@@ -116,7 +137,7 @@ class _MainListState extends State<MainList> {
               context: context,
               builder: (context) {
                 // print(quoteProvider.quote.author);
-
+                print(dataProvider.responseData.toJson());
                 return const TambahQoute();
               });
 
@@ -136,25 +157,46 @@ class _MainListState extends State<MainList> {
         ),
       ),
       body: <Widget>[
-        Consumer<QouteListProvider>(builder: (context, value, child) {
-          if (value.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          final quote1 = value.quote;
-          return Column(
+        // dataProvider.isLoading?
+        // Consumer<QouteListProvider>(builder: (context, value, child) {
+        //   if (value.isLoading) {
+        //     return const Center(
+        //       child: CircularProgressIndicator(),
+        //     );
+        //   }
+        // final quote1 = value.quote;
+        SmartRefresher(
+          controller: refreshController,
+          enablePullUp: true,
+          // onRefresh: () async {
+          //   final result = await getQuoteData(isRefresh: true);
+          //   if (result) {
+          //     refreshController.refreshCompleted();
+          //   } else {
+          //     refreshController.refreshFailed();
+          //   }
+          // },
+          // onLoading: () async {
+          //   final result = await getQuoteData(isRefresh: true);
+          //   if (result) {
+          //     refreshController.refreshCompleted();
+          //   } else {
+          //     refreshController.refreshFailed();
+          //   }
+          // },
+          child: Column(
             children: [
               const WidgetBannerList(),
               Expanded(
                 flex: 2,
                 child: ListView.builder(
-                    controller: scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(10),
-                    itemCount: quote1.length,
-                    itemBuilder: (context, index) {
-                      final quote2 = quote1[index];
+                    // itemCount: quotes.length,
+                    // shrinkWrap: true,
+                    itemCount: dataProvider.responseData.data?.length,
+                    itemBuilder: (ctx, i) {
+                      // final quote2 = q[index];
                       return Container(
                           width: double.infinity,
                           height: 54,
@@ -180,8 +222,10 @@ class _MainListState extends State<MainList> {
                                   flex: 7,
                                   child: Text(
                                     // _qoute[index].quote ?? '',
-                                    // _quotes[index].author ?? '',
-                                    quote2.toString(),
+                                    // quotes[index].author ?? '',
+                                    dataProvider.responseData.data?[i].quote ??
+                                        '',
+                                    // quote2.toString(),
                                     // _quoteProvider.quote,
                                     // 'q',
                                     style: const TextStyle(
@@ -196,47 +240,50 @@ class _MainListState extends State<MainList> {
                                     child: IconButton(
                                         color: Colors.black,
                                         onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                print(quote2);
-                                                return EditQoute(
-                                                    quote: quotes[index]);
-                                              });
+                                          // showDialog(
+                                          //     context: context,
+                                          //     builder: (context) {
+                                          //       print(quote2);
+                                          //       return EditQoute(
+                                          //           quote: quotes[i]
+                                          //           );
+
+                                          //     });
                                         },
                                         icon: Icon(Icons.create_rounded))),
                                 Expanded(
                                     child: IconButton(
                                         color: Colors.red,
                                         onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return DeleteQuote(
-                                                    quote: quotes[index]);
-                                              });
+                                          // showDialog(
+                                          //     context: context,
+                                          //     builder: (context) {
+                                          //       return DeleteQuote(
+                                          //           quote: quotes[i]);
+                                          //     });
                                         },
                                         icon: Icon(Icons.delete)))
                               ],
                             ),
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return DialogList(
-                                      quote: quotes[index],
-                                    );
-                                  });
+                              // showDialog(
+                              //     context: context,
+                              //     builder: (context) {
+                              //       return DialogList(
+                              //         quote: quotes[i],
+                              //       );
+                              //     });
                             },
                           ));
                     }),
               ),
             ],
-          );
-        })
+          ),
+        )
+        // })
       ][currentPageIndex],
     );
   }
-}
 
-int currentPageIndex = 0;
+  int currentPageIndex = 0;
+}

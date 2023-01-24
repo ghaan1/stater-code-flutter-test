@@ -19,8 +19,7 @@ class _LandingHomeState extends State<LandingHome> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ServicesQuote()),
-        ChangeNotifierProvider(create: (_) => QouteListProvider()),
+        ChangeNotifierProvider(create: (ctx) => QouteListProvider()),
       ],
       child: Scaffold(
         bottomNavigationBar: NavigationBar(

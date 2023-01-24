@@ -24,15 +24,15 @@ class ServicesQuote with ChangeNotifier {
       var page = jsonObject['meta'];
       List listPage = page.values.toList();
 
-      var listtQuote = jsonObject;
+      // var listtQuote = jsonObject;
 
-      Quote quotelist = Quote.fromJson(listtQuote);
+      // Quote quotelist = Quote.fromJson(listtQuote);
       // sp.setString("token", responseJson['token']);
-      notifyListeners();
+      // notifyListeners();
 
       for (var quote in listQuotes) {
         quotes.add(Quote.fromJson(quote));
-        saveQuote(quotelist);
+        // saveQuote(quotelist);
 
         // print(listQuotes);
       }
