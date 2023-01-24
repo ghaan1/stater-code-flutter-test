@@ -7,6 +7,7 @@ import 'package:startercodepacitan/Pages/Home%20Page/landinghome_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 import 'package:startercodepacitan/models/models_user.dart';
+import 'package:startercodepacitan/provider/provider_qoutes.dart';
 import 'package:startercodepacitan/provider/provider_user.dart';
 import 'package:startercodepacitan/services/services.dart';
 
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ServicesAuth()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => QouteListProvider()),
+        ChangeNotifierProvider(create: (_) => ServicesQuote()),
       ],
       child: MaterialApp(
         home: FutureBuilder(

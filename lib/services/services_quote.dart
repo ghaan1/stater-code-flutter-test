@@ -2,8 +2,8 @@ part of 'services.dart';
 
 class ServicesQuote with ChangeNotifier {
   final String token = '';
-  Future<List> listQuote(String page) async {
-    // Future<List<dynamic>> getQuotes(String page) async {
+  // Future<List> listQuote(String page) async {
+  Future<List<dynamic>> getQuotes(String page) async {
     var url = Uri.parse('${baseUrl}quote?page=$page');
 
     List<Quote> quotes = [];
@@ -20,33 +20,36 @@ class ServicesQuote with ChangeNotifier {
     // print(response.body);
     if (response.statusCode == 200) {
       var jsonObject = json.decode(response.body);
-      // List listQuotes = (jsonObject as Map<String, dynamic>)['data'];
+      List<dynamic> listQuotes = (jsonObject as Map<String, dynamic>)['data'];
       var page = jsonObject['meta'];
       List listPage = page.values.toList();
+
       var listtQuote = jsonObject;
+
       Quote quotelist = Quote.fromJson(listtQuote);
-      saveQuote(quotelist);
       // sp.setString("token", responseJson['token']);
       notifyListeners();
 
-      // for (var quote in listQuotes) {
-      //   quotes.add(Quote.fromJson(quote));
-      //   // print(quotes);
-      // }
+      for (var quote in listQuotes) {
+        quotes.add(Quote.fromJson(quote));
+        saveQuote(quotelist);
 
+        // print(listQuotes);
+      }
       quotesServices.add(quotes);
       quotesServices.add(listPage[2]);
+      // print(quotelist);
       // print(quotesServices[0]);
     }
     return quotesServices;
   }
 
-  static Future<bool> saveQuote(Quote quotess) async {
+  Future<bool> saveQuote(Quote quotess) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setInt("id", quotess.id ?? 0);
     prefs.setString("quote", quotess.quote ?? '');
-    prefs.setString("token", quotess.author ?? '');
+    prefs.setString("author", quotess.author ?? '');
 
     return true;
   }
