@@ -25,10 +25,9 @@ class _MainListState extends State<MainList> {
   // List<Quote> quotes = [];
   // int selectedIndex = 0;
   int currentPage = 1;
-  late int totalPage;
+  int totalPage = 0;
   List<Quote> quotes = [];
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: true);
+  RefreshController refreshController = RefreshController(initialRefresh: true);
 
   // int lastPage = 0;
   // bool isLoading = true;
@@ -92,7 +91,7 @@ class _MainListState extends State<MainList> {
     currentPage++;
 
     totalPage = dataProvider.responseData.totalPages!;
-    // setState(() {});
+    setState(() {});
     return true;
   }
 
@@ -165,38 +164,38 @@ class _MainListState extends State<MainList> {
         //     );
         //   }
         // final quote1 = value.quote;
-        SmartRefresher(
-          controller: refreshController,
-          enablePullUp: true,
-          // onRefresh: () async {
-          //   final result = await getQuoteData(isRefresh: true);
-          //   if (result) {
-          //     refreshController.refreshCompleted();
-          //   } else {
-          //     refreshController.refreshFailed();
-          //   }
-          // },
-          // onLoading: () async {
-          //   final result = await getQuoteData(isRefresh: true);
-          //   if (result) {
-          //     refreshController.refreshCompleted();
-          //   } else {
-          //     refreshController.refreshFailed();
-          //   }
-          // },
-          child: Column(
-            children: [
-              const WidgetBannerList(),
-              Expanded(
-                flex: 2,
+        Column(
+          children: [
+            const WidgetBannerList(),
+            Expanded(
+              flex: 2,
+              child: SmartRefresher(
+                controller: refreshController,
+                enablePullUp: true,
+                onRefresh: () async {
+                  final result = await getQuoteData(isRefresh: true);
+                  if (result) {
+                    refreshController.refreshCompleted();
+                  } else {
+                    refreshController.refreshFailed();
+                  }
+                },
+                onLoading: () async {
+                  final result = await getQuoteData();
+                  if (result) {
+                    refreshController.loadComplete();
+                  } else {
+                    refreshController.loadFailed();
+                  }
+                },
                 child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(10),
                     // itemCount: quotes.length,
                     // shrinkWrap: true,
                     itemCount: dataProvider.responseData.data?.length,
                     itemBuilder: (ctx, i) {
-                      // final quote2 = q[index];
+                      final quote2 = quotes[i];
                       return Container(
                           width: double.infinity,
                           height: 54,
@@ -222,9 +221,9 @@ class _MainListState extends State<MainList> {
                                   flex: 7,
                                   child: Text(
                                     // _qoute[index].quote ?? '',
-                                    // quotes[index].author ?? '',
-                                    dataProvider.responseData.data?[i].quote ??
-                                        '',
+                                    quote2.author ?? '',
+                                    // dataProvider.responseData.data?[i].quote ??
+                                    //     '',
                                     // quote2.toString(),
                                     // _quoteProvider.quote,
                                     // 'q',
@@ -277,8 +276,8 @@ class _MainListState extends State<MainList> {
                           ));
                     }),
               ),
-            ],
-          ),
+            ),
+          ],
         )
         // })
       ][currentPageIndex],
