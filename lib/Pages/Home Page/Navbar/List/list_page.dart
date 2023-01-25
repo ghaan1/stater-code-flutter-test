@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/create_page.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/delete_page.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/edit_page.dart';
-import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/Components/dialog.dart';
-import 'package:startercodepacitan/models/models_quote.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/components/quoteCRUD_form_field.dart';
+
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/screen/create_page.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/screen/delete_page.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/screen/edit_page.dart';
 import 'package:startercodepacitan/provider/provider_qoutes.dart';
-import 'package:startercodepacitan/services/services.dart';
 
 import 'Components/bannerlist_page.dart';
+import 'CRUD/components/dialog.dart';
 
 class MainList extends StatefulWidget {
   const MainList({
@@ -26,7 +25,6 @@ class _MainListState extends State<MainList> {
   @override
   void initState() {
     super.initState();
-    // getQuoteData();
     final dataProvider = Provider.of<QouteListProvider>(context, listen: false);
     scrollController.addListener(() {
       if (scrollController.offset ==
@@ -38,7 +36,6 @@ class _MainListState extends State<MainList> {
         }
       }
     });
-
     dataProvider.fetchData();
   }
 
@@ -52,7 +49,7 @@ class _MainListState extends State<MainList> {
           showDialog(
               context: context,
               builder: (context) {
-                return const TambahQoute();
+                return TambahQoute();
               });
         },
         child: const Icon(
@@ -111,39 +108,34 @@ class _MainListState extends State<MainList> {
                                   child: IconButton(
                                       color: Colors.black,
                                       onPressed: () {
-                                        // showDialog(
-                                        //     context: context,
-                                        //     builder: (context) {
-                                        //       print(quote2);
-                                        //       return EditQoute(
-                                        //           quote: quotes[i]
-                                        //           );
-
-                                        //     });
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return EditQoute(quote: quote);
+                                            });
                                       },
-                                      icon: Icon(Icons.create_rounded))),
+                                      icon: const Icon(Icons.create_rounded))),
                               Expanded(
                                   child: IconButton(
                                       color: Colors.red,
                                       onPressed: () {
-                                        // showDialog(
-                                        //     context: context,
-                                        //     builder: (context) {
-                                        //       return DeleteQuote(
-                                        //           quote: quotes[i]);
-                                        //     });
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return DeleteQuote(quote: quote);
+                                            });
                                       },
-                                      icon: Icon(Icons.delete)))
+                                      icon: const Icon(Icons.delete)))
                             ],
                           ),
                           onPressed: () {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (context) {
-                            //       return DialogList(
-                            //         quote: quotes[i],
-                            //       );
-                            //     });
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return DialogList(
+                                    quote: quote,
+                                  );
+                                });
                           },
                         ));
                   }),

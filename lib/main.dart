@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/Navbar/Home/home_page.dart';
 import 'package:startercodepacitan/Pages/Home%20Page/landinghome_page.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:startercodepacitan/Pages/Registers%20Page/registers_page.dart';
 import 'package:startercodepacitan/models/models_user.dart';
 import 'package:startercodepacitan/provider/provider_qoutes.dart';

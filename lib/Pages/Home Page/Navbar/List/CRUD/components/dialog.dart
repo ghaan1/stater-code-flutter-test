@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/models_quote.dart';
+import '../../../../../../models/models_quote.dart';
 
 class DialogList extends StatefulWidget {
   Quote quote;
@@ -18,7 +18,7 @@ class _DialogListState extends State<DialogList> {
   @override
   void initState() {
     super.initState();
-    // text = widget.quote!.quote;
+    text = widget.quote.quote ?? '';
   }
 
   @override

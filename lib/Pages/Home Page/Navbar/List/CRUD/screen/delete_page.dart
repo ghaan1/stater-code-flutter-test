@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:startercodepacitan/Pages/Home%20Page/Navbar/List/CRUD/components/quoteCRUD_text_dialog.dart';
 import 'package:startercodepacitan/models/models_quote.dart';
 import 'package:startercodepacitan/services/services.dart';
 
-// ignore: must_be_immutable
 class DeleteQuote extends StatefulWidget {
   Quote quote;
   DeleteQuote({
@@ -31,9 +31,9 @@ class _DeleteQuoteState extends State<DeleteQuote> {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15.0),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                  offset: const Offset(12, 26),
+                  offset: Offset(12, 26),
                   blurRadius: 50,
                   spreadRadius: 0,
                   color: Colors.white),
@@ -44,15 +44,11 @@ class _DeleteQuoteState extends State<DeleteQuote> {
             const SizedBox(
               height: 10,
             ),
-            const Text("Delete",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold)),
+            TextHeaderDialog(text: 'Delete Quote'),
             const SizedBox(
               height: 15,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -66,7 +62,6 @@ class _DeleteQuoteState extends State<DeleteQuote> {
                           backgroundColor: Colors.red,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
-                              //to set border radius to button
                               borderRadius: BorderRadius.circular(15)),
                         ),
                         onPressed: () {
@@ -88,7 +83,6 @@ class _DeleteQuoteState extends State<DeleteQuote> {
                           backgroundColor: Colors.white,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
-                              //to set border radius to button
                               borderRadius: BorderRadius.circular(15)),
                         ),
                         onPressed: () {

@@ -45,6 +45,7 @@ class ServicesQuote with ChangeNotifier {
     };
 
     final response = await post(url, body: body, headers: headers);
+    notifyListeners();
     return response;
   }
 
@@ -61,6 +62,7 @@ class ServicesQuote with ChangeNotifier {
     };
 
     final response = await put(url, body: body, headers: headers);
+    notifyListeners();
     return response;
   }
 
@@ -76,6 +78,7 @@ class ServicesQuote with ChangeNotifier {
     };
 
     final response = await delete(url, headers: headers);
+    notifyListeners();
     return response;
   }
 }
