@@ -45,16 +45,6 @@ class _MainListState extends State<MainList> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<QouteListProvider>(context);
-    // final qouteProvider = Provider.of<QouteListProvider>(context);
-    // List quote = quotes;
-
-    // _quote.getAllQoutes(quotes);
-    // author = Provider.of<QouteListProvider>(context).quote.;
-    // Provider.of<QouteListProvider>(context).getAllQoutes(quote);
-    // context.read<ServicesQuote>.getQuotes(quote);
-    // Quote _quotes =
-    //     Provider.of<QouteListProvider>(context).getAllQoutes(fetchData());
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF6777EE),
@@ -62,20 +52,8 @@ class _MainListState extends State<MainList> {
           showDialog(
               context: context,
               builder: (context) {
-                // print(quoteProvider.quote.author);
-                // print(dataProvider.responseData.toJson());
-                print(dataProvider.quotes);
                 return const TambahQoute();
               });
-
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) {
-          //       return const TambahQoute();
-          //     },
-          //   ),
-          // );
         },
         child: const Icon(
           Icons.add,
@@ -93,8 +71,6 @@ class _MainListState extends State<MainList> {
                   controller: scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(10),
-                  // itemCount: quotes.length,
-                  // shrinkWrap: true,
                   itemCount: dataProvider.quotes.length,
                   itemBuilder: (context, index) {
                     final quote = dataProvider.quotes[index];
@@ -122,14 +98,7 @@ class _MainListState extends State<MainList> {
                               Expanded(
                                 flex: 7,
                                 child: Text(
-                                  // _qoute[index].quote ?? '',
-                                  // dataProvider.quotes[index].author ?? '',
                                   quote.author ?? '',
-                                  // dataProvider.responseData.data?[i].quote ??
-                                  //     '',
-                                  // quote2.toString(),
-                                  // _quoteProvider.quote,
-                                  // 'q',
                                   style: const TextStyle(
                                     color: Color(0xFF6777EE),
                                     fontFamily: 'Nunito',
