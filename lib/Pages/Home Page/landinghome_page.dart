@@ -15,6 +15,13 @@ class LandingHome extends StatefulWidget {
 
 class _LandingHomeState extends State<LandingHome> {
   int currentPageIndex = 0;
+  // @override
+  // void initState() {
+  //   final dataProvider = Provider.of<QouteListProvider>(context, listen: false);
+  //   super.initState();
+  //   dataProvider.fetchData();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

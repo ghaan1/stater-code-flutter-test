@@ -2,8 +2,8 @@ part of 'services.dart';
 
 class ServicesQuote with ChangeNotifier {
   final String token = '';
-  // Future<List> listQuote(String page) async {
-  Future<List<dynamic>> getQuotes(String page) async {
+  Future<List> listQuote(String page) async {
+    // Future<List<dynamic>> getQuotes(String page) async {
     var url = Uri.parse('${baseUrl}quote?page=$page');
 
     List<Quote> quotes = [];
@@ -38,6 +38,7 @@ class ServicesQuote with ChangeNotifier {
       }
       quotesServices.add(quotes);
       quotesServices.add(listPage[2]);
+      notifyListeners();
       // print(quotelist);
       // print(quotesServices[0]);
     }

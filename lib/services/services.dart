@@ -16,5 +16,5 @@ part 'services_auth.dart';
 part 'services_quote.dart';
 
 // const String baseUrl = "https://80a4-61-5-11-20.ap.ngrok.io/api/";
-const String baseUrl = "http://192.168.2.253:8000/api/";
+const String baseUrl = "http://192.168.1.2:8000/api/";
 const String accept = "application/json";

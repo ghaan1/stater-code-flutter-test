@@ -10,6 +10,42 @@ import 'dart:convert';
 import 'dart:developer';
 
 class QouteListProvider with ChangeNotifier {
+  List<String> user = [];
+  List<Quote> quotes = [];
+  int selectedIndex = 0;
+  int currentPage = 1;
+  int totalPage = 0;
+  String author = '';
+  // List<Quote> quotes = [];
+  // RefreshController refreshController = RefreshController(initialRefresh: true);
+
+  int lastPage = 0;
+  bool isLoading = true;
+
+  fetchData() {
+    ServicesQuote().listQuote(currentPage.toString()).then((resultList) {
+      // setState(() {
+      quotes = resultList[0];
+      lastPage = resultList[1];
+      isLoading = false;
+      //  });
+      notifyListeners();
+    });
+    // notifyListeners();
+  }
+
+  addMoreData() {
+    ServicesQuote().listQuote(currentPage.toString()).then((resultList) {
+      // setState(() {
+      quotes.addAll(resultList[0]);
+      lastPage = resultList[1];
+      isLoading = false;
+      notifyListeners();
+    });
+    // });
+    // notifyListeners();
+  }
+}
   // final _service = ServicesQuote();
   // int selectedIndex = 0;
   // int currentPage = 1;
@@ -45,53 +81,55 @@ class QouteListProvider with ChangeNotifier {
   // isLoading = false;
   // notifyListeners();
   // }
-  ResponseData responseData = ResponseData();
-  // List quotes = [];
+  // ResponseData responseData = ResponseData();
+  // // List quotes = [];
+  // List<Quote> quotes = [];
 
-  bool isLoading = false;
+  // bool isLoading = false;
 
-  getMyData(int page) async {
-    isLoading = true;
-    responseData = await getAllData(page);
-    isLoading = false;
-    notifyListeners();
-  }
+  // getMyData(int page) async {
+  //   isLoading = true;
+  //   responseData = await getAllData(page);
+  //   isLoading = false;
+  //   notifyListeners();
+  // }
 
-  Future<ResponseData> getAllData(int page) async {
-    try {
-      // var url = Uri.parse("http://192.168.2.253:8000/api/quote?page=1");
-      var url = Uri.parse('http://192.168.2.253:8000/api/quote?page=$page');
+  // Future<ResponseData> getAllData(String page) async {
+  //   try {
+  //     // var url = Uri.parse("http://192.168.2.253:8000/api/quote?page=1");
+  //     var url = Uri.parse('http://192.168.1.2:8000/api/quote?page=$page');
 
-      final prefs = await SharedPreferences.getInstance();
-      const key = "token";
-      final token = prefs.get(key);
-      final headers = {
-        'Authorization': 'Bearer $token',
-        'Accept': accept,
-      };
-      http.Response response = await get(url, headers: headers);
+  //     final prefs = await SharedPreferences.getInstance();
+  //     const key = "token";
+  //     final token = prefs.get(key);
+  //     final headers = {
+  //       'Authorization': 'Bearer $token',
+  //       'Accept': accept,
+  //     };
+  //     http.Response response = await get(url, headers: headers);
 
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        responseData = ResponseData.fromJson(item);
+  //     if (response.statusCode == 200) {
+  //       final item = json.decode(response.body);
+  //       responseData = ResponseData.fromJson(item);
 
-        // List<dynamic> listQuotes = (item as Map<String, dynamic>)['data'];
-        // var page = item['meta'];
-        // List listPage = page.values.toList();
+  //       // List<dynamic> listQuotes = (item as Map<String, dynamic>)['data'];
+  //       var page = item['meta'];
+  //       List listPage = page.values.toList();
 
-        // for (var quote in listQuotes) {
-        // quotes.add(Quote.fromJson(quote));
-        // responseData.data?.add(quote);
-        // }
+  //       for (var quote in responseData.data!) {
+  //         // quotes.add(Quote.fromJson(quote));
+  //         quotes.add(quote);
+  //       }
+  //       responseData.data!.add(quotes);
+  //       responseData.add(listPage[2]);
+  //       notifyListeners();
+  //     } else {
+  //       print("else");
+  //     }
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
 
-        notifyListeners();
-      } else {
-        print("else");
-      }
-    } catch (e) {
-      log(e.toString());
-    }
+  //   return responseData;
+  // }
 
-    return responseData;
-  }
-}
